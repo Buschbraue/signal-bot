@@ -130,11 +130,17 @@ def spy_tips_cool():
     last_tips_indicator = BUY if last_entry[2] > last_entry[4] else SELL
     last_indicator = BUY if last_spy_indicator == BUY and last_tips_indicator == BUY else SELL
 
+    # Emoji-Zuordnung
+    signal_emoji = "🟢" if total_indicator == BUY else "🔴"
+    spy_emoji = "🟢" if spy_indicator == BUY else "🔴"
+    tips_emoji = "🟢" if tips_indicator == BUY else "🔴"
+
+
     text = f"Currently in market ({new_entry[6]} cooldown days remaining)\n" if new_entry[5] else f"Currently in cash ({new_entry[6]} cooldown days remaining)\n"
-    text += f"The SIGNAL remains {total_indicator}\n" if total_indicator == last_indicator else f"The SIGNAL has changed to {total_indicator}\n"
-    text += f"The SPY signal remains {spy_indicator}" if spy_indicator == last_spy_indicator else f"The SPY signal has changed to {spy_indicator}"
+    text += f"The SIGNAL remains {total_indicator} {signal_emoji}\n" if total_indicator == last_indicator else f"The SIGNAL has changed to {total_indicator} {signal_emoji}\n"
+    text += f"The SPY signal remains {spy_indicator} {spy_emoji}" if spy_indicator == last_spy_indicator else f"The SPY signal has changed to {spy_indicator} {spy_emoji}"
     text += f" with a difference of {spy_diff.iloc[-1]:.2%}\n"
-    text += f"The TIPS signal remains {tips_indicator}" if tips_indicator == last_tips_indicator else f"The TIPS signal has changed to {tips_indicator}"
+    text += f"The TIPS signal remains {tips_indicator} {tips_emoji}" if tips_indicator == last_tips_indicator else f"The TIPS signal has changed to {tips_indicator} {tips_emoji}"
     text += f" with a difference of {tips_diff.iloc[-1]:.2%}\n"
 
     return subject, subject2, text
