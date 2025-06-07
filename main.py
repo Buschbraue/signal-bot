@@ -5,7 +5,7 @@ from strategies.spytips_cool import spy_tips_cool
 def saveText(subject, subject2=None, text=None):
     if not subject and not subject2:
         return
-    d = open('message.txt', 'w')
+    d = open('message.txt', 'w', encoding='utf-8')
     if subject:
         d.write(subject + "\n\n")
     if subject2:
