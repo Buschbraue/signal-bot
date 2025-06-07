@@ -101,15 +101,19 @@ def spy_tips_cool():
     tips_indicator = BUY if new_entry[2] > new_entry[4] else SELL
     total_indicator = BUY if spy_indicator == BUY and tips_indicator == BUY else SELL
     if last_entry is None:
-        subject = MAIN_SIGNAL_CHANGE_LONG.format(COOLDOWN_DAYS) if new_entry[5] else MAIN_SIGNAL_CHANGE_SHORT.format(COOLDOWN_DAYS)
+        # Emoji-Zuordnung
+        signal_emoji = "🟢" if total_indicator == BUY else "🔴"
+        spy_emoji = "🟢" if spy_indicator == BUY else "🔴"
+        tips_emoji = "🟢" if tips_indicator == BUY else "🔴"
+        
+       subject = MAIN_SIGNAL_CHANGE_LONG.format(COOLDOWN_DAYS) if new_entry[5] else MAIN_SIGNAL_CHANGE_SHORT.format(COOLDOWN_DAYS)
         subject2 = ""
         text = f"Currently in market ({new_entry[6]} cooldown days remaining)\n" if new_entry[5] else f"Currently in cash ({new_entry[6]} cooldown days remaining)\n"
-        text += f"The SIGNAL is {total_indicator}\n"
-        text += f"The SPY signal is {spy_indicator}"
-        text += f" with a difference of {spy_diff.iloc[-1]:.2%}\n"
-        text += f"The TIPS signal is {tips_indicator}"
-        text += f" with a difference of {tips_diff.iloc[-1]:.2%}\n"
+        text += f"The SIGNAL is {total_indicator} {signal_emoji}\n"
+        text += f"The SPY signal is {spy_indicator} {spy_emoji} with a difference of {spy_diff.iloc[-1]:.2%}\n"
+        text += f"The TIPS signal is {tips_indicator} {tips_emoji} with a difference of {tips_diff.iloc[-1]:.2%}\n"
         return subject, subject2, text
+        
     last_entry = [last_entry[0]] + [float(x) for x in last_entry[1:5]] + [last_entry[5] == "True", int(last_entry[6])]
     subject = ""
     subject2 = ""
